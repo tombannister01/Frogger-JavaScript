@@ -1,0 +1,79 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0
+}
+
+.grid {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid grey;
+  width: 600px;
+  height: 600px;
+  flex-wrap: wrap;
+}
+/* 16x16 */
+.cell {
+  width: 5.8823529412%;
+  height: 5.8823529412%;
+  border: 1px solid black;
+}
+
+.frog {
+ background-image: url('https://cdn.clipart.email/ccf5822a3b7b840f389950e9dee7f656_the-tree-frog-clip-art-frog-clipart-png-download-13921415-_1392-1415.png');
+ background-size: contain;
+}
+
+.frog-left {
+  background-image: url('https://cdn.clipart.email/ccf5822a3b7b840f389950e9dee7f656_the-tree-frog-clip-art-frog-clipart-png-download-13921415-_1392-1415.png');
+ background-size: contain;
+ transform: rotate(-90deg);
+ }
+
+ .frog-right {
+  background-image: url('https://cdn.clipart.email/ccf5822a3b7b840f389950e9dee7f656_the-tree-frog-clip-art-frog-clipart-png-download-13921415-_1392-1415.png');
+  background-size: contain;
+  transform: rotate(90deg);
+ }
+
+ .frog-down {
+  background-image: url('https://cdn.clipart.email/ccf5822a3b7b840f389950e9dee7f656_the-tree-frog-clip-art-frog-clipart-png-download-13921415-_1392-1415.png');
+  background-size: contain;
+  transform: rotate(180deg);
+ }
+
+ .river {
+   background-color: blue;
+ }
+ .road {
+   background-color: darkgrey;
+ }
+.grass {
+  background-color: #79E92D;
+}
+.dark-grass {
+  background-color: #2EA730;
+}
+.lilypad {
+  background-image: url('https://lh3.googleusercontent.com/proxy/rOubj79eZ9DcSio6pDHPPTmYP6j5wGx5ceFfdX8O7_s_0V3rWf4P0-saIY6wlGvuSkOq5lAW7Pmm_LtrlkuPb8U0XVRAt_8');
+  background-size: contain;
+}
+.spike {
+background-image: url('https://pngimage.net/wp-content/uploads/2018/06/spikes-png-5.png');
+background-size: contain;
+}
+.rock {
+background-image: url('https://p7.hiclipart.com/preview/1022/432/837/rock-clip-art-stone.jpg');
+background-size: contain;
+}
+.car {
+  background-image: url('https://img.favpng.com/21/6/3/cartoon-car-png-favpng-Fiap1M5KaydcrzMgTrvNvxAi7.jpg');
+  background-size: contain;
+}
