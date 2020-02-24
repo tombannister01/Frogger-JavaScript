@@ -23,7 +23,7 @@ body {
 .cell {
   width: 5.8823529412%;
   height: 5.8823529412%;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 }
 
 .frog {
@@ -58,11 +58,11 @@ body {
 .grass {
   background-color: #79E92D;
 }
-.dark-grass {
-  background-color: #2EA730;
+.grass-finish {
+  background-color: #79E92D;
 }
 .lilypad {
-  background-image: url('https://lh3.googleusercontent.com/proxy/rOubj79eZ9DcSio6pDHPPTmYP6j5wGx5ceFfdX8O7_s_0V3rWf4P0-saIY6wlGvuSkOq5lAW7Pmm_LtrlkuPb8U0XVRAt_8');
+  /* background-image: url('https://lh3.googleusercontent.com/proxy/rOubj79eZ9DcSio6pDHPPTmYP6j5wGx5ceFfdX8O7_s_0V3rWf4P0-saIY6wlGvuSkOq5lAW7Pmm_LtrlkuPb8U0XVRAt_8'); */
   background-size: contain;
 }
 .spike {
@@ -74,6 +74,15 @@ background-image: url('https://p7.hiclipart.com/preview/1022/432/837/rock-clip-a
 background-size: contain;
 }
 .car {
-  background-image: url('https://img.favpng.com/21/6/3/cartoon-car-png-favpng-Fiap1M5KaydcrzMgTrvNvxAi7.jpg');
-  background-size: contain;
+  background-image: url('https://i.pinimg.com/originals/21/36/d8/2136d8d0e80aad580f170736f5e469ee.png');
+  background-size: 35px 25px;
+}
+
+
+.log {
+  background-color: brown;
+}
+
+.log1 {
+  background-color: #481219;
 }
