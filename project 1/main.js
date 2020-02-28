@@ -7,8 +7,8 @@ function main() {
   const gameOver = document.querySelector('.game-over')
   const resetButton = document.querySelector('.reset-button')
   const finish = document.querySelector('.finish')
+  const instructions = document.querySelector('.view')
   startButton.addEventListener('click', GameStart)
-  // resetButton.addEventListener('click', GameStart)
 
 
 
@@ -22,6 +22,7 @@ function main() {
     resetButton.style.display = 'none'
     gameOver.style.display = 'none'
     finish.style.display = 'none'
+    instructions.style.display = 'none'
     loadGrid()
     movementOfFrog()
     loadRiver()
@@ -30,21 +31,12 @@ function main() {
     loadLogs()
     loadLogsDark()
     loadGrass()
-    // loadLilypad()
     loadSpikes()
     loadRock()
     moveCar()
     moveLog()
     moveLog2()
-    // frogDieOnSpike()
-    // frogAndRock()
-    // frogMoveWithLog()
-    // frogDie()
-    // moveCar1()
-    // moveCar2()
-    // moveCar3()
-    // frogAndLog()
-    // FrogFinish()
+    backgroundAudio.play()
   }
 
 
@@ -64,6 +56,24 @@ window.addEventListener('DOMContentLoaded', main)
 // let river = [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
 
 
+let frogDirection = 'frog'
+
+function renderGame() {
+  cells.forEach(cell => {
+    cell.classList.remove('frog')
+    cell.classList.remove('frog-right')
+    cell.classList.remove('frog-left')
+    cell.classList.remove('frog-down')
+  })
+  switch (frogDirection) {
+    case 'left': cells[frog].classList.add('frog-left'); break
+    case 'right': cells[frog].classList.add('frog-right'); break
+    case 'down': cells[frog].classList.add('frog-down'); break
+    default: cells[frog].classList.add('frog'); break
+  }
+
+}
+
 
 
 let lives = 3
@@ -79,12 +89,34 @@ const rightWall = [33, 50, 67, 84]
 let movedFrog = false
 
 
-function loadRiver() {
 
-  // const grid = document.querySelector('.grid')
-  // console.log(grid)
-  // for (let i = 16; i < 83; i++) {
-  //   grid[i].classList.add('river')
+const froggerHop = new Audio()
+froggerHop.src = '../sounds/hop.mp3'
+froggerHop.volume = 0.3
+
+const froggerSplash = new Audio()
+froggerSplash.src = '../sounds/dp_frogger_plunk.wav'
+froggerSplash.volume = 1
+
+const froggerHit = new Audio()
+froggerHit.src = '../sounds/dp_frogger_squash.wav'
+froggerHit.volume = 1
+
+const backgroundAudio = new Audio()
+backgroundAudio.src = '../sounds/starwars_cantina.mp3'
+backgroundAudio.volume = 0.7
+backgroundAudio.loop = true
+
+const winningAudio = new Audio()
+winningAudio.src = '../sounds/winner.mp3'
+winningAudio.volume = 1
+
+// const gameOver = new Audio()
+// gameOver.src = '../sounds/game-over.wav'
+// gameOver.volume = 1
+
+
+function loadRiver() {
 
   for (let i = 17; i < 85; i++) {
     cells[i].classList.add('river')
@@ -122,16 +154,19 @@ function loadLogsDark() {
 }
 
 
-
-
 function loadGrass() {
 
   for (let i = 272; i < 289; i++) {
     cells[i].classList.add('grass')
   }
-  for (let i = 0; i < 17; i++) {
-    cells[i].classList.add('grass-finish')
+  for (let i = 0; i < 8; i++) {
+    cells[i].classList.add('grass')
   }
+  for (let i = 9; i < 17; i++) {
+    cells[i].classList.add('grass')
+  }
+  cells[8].classList.add('grass-finish')
+
   for (let i = 85; i < 170; i++) {
     cells[i].classList.add('grass')
   }
@@ -212,51 +247,38 @@ function movementOfFrog() {
       if (frog === cells.length - 1) {
         return
       }
-      cells[frog].classList.remove('frog')
-      cells[frog].classList.remove('frog-right')
-      cells[frog].classList.remove('frog-left')
-      cells[frog].classList.remove('frog-down')
+      frogDirection = 'right'
       frog += 1
 
-      cells[frog].classList.add('frog-right')
     } else if (event.key === 'ArrowLeft') {
       if (frog === 0) {
         return
       }
-      cells[frog].classList.remove('frog')
-      cells[frog].classList.remove('frog-right')
-      cells[frog].classList.remove('frog-left')
-      cells[frog].classList.remove('frog-down')
+      frogDirection = 'left'
       frog -= 1
-      cells[frog].classList.add('frog-left')
+
     } else if (event.key === 'ArrowUp') {
       if (frog < widthOfGrid) {
         return
       }
-      cells[frog].classList.remove('frog')
-      cells[frog].classList.remove('frog-right')
-      cells[frog].classList.remove('frog-down')
-      cells[frog].classList.remove('frog-left')
+      frogDirection = 'frog'
       frog -= widthOfGrid
-      cells[frog].classList.add('frog')
+
     } else if (event.key === 'ArrowDown') {
       if (frog > cells.length - widthOfGrid - 1) {
         return
       }
-      cells[frog].classList.remove('frog')
-      cells[frog].classList.remove('frog-right')
-      cells[frog].classList.remove('frog-left')
-      cells[frog].classList.remove('frog-down')
+      frogDirection = 'down'
       frog += widthOfGrid
-      cells[frog].classList.add('frog-down')
+
     }
+    renderGame()
     FrogFinish()
     frogDie()
     frogDieOnSpike()
     frogAndRock()
     frogDieInWater()
-
-
+    froggerHop.play()
   })
 }
 
@@ -296,12 +318,9 @@ function moveLog() {
         cells[logArray[i]].classList.add('river')
         cells[logArray[i] - 1].classList.remove('log')
         cells[logArray[i] - 1].classList.add('river')
-        logArray[i] -= widthOfGrid
-        // cells[logArray[i]].classList.add('log')
+        logArray[i] -= widthOfGrid - 1
       }
 
-
-      // cells[logArray[i]].classList.remove('log')
       logArray[i]++
 
       cells[logArray[i]].classList.remove('river')
@@ -339,35 +358,13 @@ function moveLog() {
       cells[logArray[i] - 2].classList.add('river')
       cells[logArray[i] - 2].classList.remove('frog')
 
-      /////////
-      // frogMoveWithLog()
-    }
 
-    // frogDieInWater()
+    }
 
   }, 1300)
 }
 
 
-
-
-// function frogAndLog() {
-//   for (let i = 0; i < gridCellCount; i++)
-//     if (cells[i].className.includes('log') && cells[i].className.includes('frog')) {
-//       // cells[logArray[i]].classList.remove('log')
-//       frog++
-//       logArray[i]++
-//       cells[frog - 1].classList.remove('frog', 'frog-left', 'frog-right', 'frog-down')
-//       cells[frog].classList.add('frog')
-//       // console.log(frog, logArray[i])
-//       // cells[logArray[i]].classList.remove('river')
-//       // cells[logArray[i]].classList.add('log')
-//       // cells[logArray[i] - 1].classList.remove('river')
-//       // cells[logArray[i] - 1].classList.add('log')
-//       // cells[logArray[i] - 2].classList.remove('log')
-//       // cells[logArray[i] - 2].classList.add('river')
-//     }
-// }
 
 
 
@@ -380,12 +377,9 @@ function moveLog2() {
         cells[logArrayDark[i]].classList.add('river')
         cells[logArrayDark[i] - 1].classList.remove('log1')
         cells[logArrayDark[i] - 1].classList.add('river')
-        logArrayDark[i] -= widthOfGrid
-        // cells[logArray[i]].classList.add('log')
+        logArrayDark[i] -= widthOfGrid - 1
       }
 
-
-      // cells[logArray[i]].classList.remove('log')
       logArrayDark[i]++
 
       cells[logArrayDark[i]].classList.remove('river')
@@ -440,9 +434,11 @@ function frogDie() {
     cellWithFrogAndCar.classList.remove('frog-left')
     cellWithFrogAndCar.classList.remove('frog-right')
     cellWithFrogAndCar.classList.remove('frog-down')
+    froggerHit.play()
     frog = 280
     cells[frog].classList.add('frog')
     livesCounter.innerHTML = `lives: ${lives -= 1}`
+
   }
 }
 
@@ -457,6 +453,7 @@ function frogDieOnSpike() {
     cellWithFrogAndSpike.classList.remove('frog-left')
     cellWithFrogAndSpike.classList.remove('frog-right')
     cellWithFrogAndSpike.classList.remove('frog-down')
+    froggerHit.play()
     frog = 280
     cells[frog].classList.add('frog')
     livesCounter.innerHTML = `lives: ${lives -= 1}`
@@ -473,7 +470,7 @@ function frogAndRock() {
     cellWithFrogAndRock.classList.remove('frog-left')
     cellWithFrogAndRock.classList.remove('frog-right')
     cellWithFrogAndRock.classList.remove('frog-down')
-    // return cellWithFrogAndRock - widthOfGrid
+    froggerHit.play()
     frog = 280
     cells[frog].classList.add('frog')
     livesCounter.innerHTML = `lives: ${lives -= 1}`
@@ -496,6 +493,7 @@ function frogDieInWater() {
     frog = 280
     cells[frog].classList.add('frog')
     livesCounter.innerHTML = `lives: ${lives -= 1}`
+    froggerSplash.play()
   }
   const grid = document.querySelector('.grid')
   const gameOver = document.querySelector('.game-over')
@@ -520,157 +518,13 @@ function FrogFinish() {
       livesCounter.style.display = 'none'
       resetButton.style.display = 'none'
       finish.style.display = 'block'
+      winningAudio.play()
+      backgroundAudio.pause()
     }
 
   })
 
 }
-
-// cells.find((element) => {
-//   if (element.className.includes('frog') && element.className.includes('grass-finish')) {
-//     grid.style.display = 'none'
-//     livesCounter.style.display = 'none'
-//     resetButton.style.display = 'none'
-//   }
-// })
-
-
-// function frogMoveWithLog() {
-//   const cellWithFrogAndLog = cells.find((element) => {
-//     return element.className.includes('frog', 'frog-left', 'frog-right', 'frog-down') && element.className.includes('log')
-//   })
-//   if (cellWithFrogAndLog) {
-//     frog = cells.indexOf(cellWithFrogAndLog) + 1
-//     console.log(frog)
-//     cells[frog].classList.add('frog')
-//     cells[frog - 1].classList.remove('frog')
-//     cells[frog - 1].classList.remove('frog-left')
-//     cells[frog - 1].classList.remove('frog-right')
-//     cells[frog - 1].classList.remove('frog-down')
-
-//   }
-// }
-
-
-
-
-// const frogPosition = cells.indexOf('frog')
-// console.log(frogPosition)
-// if ( === ) { //  && [cells].classList.contains('car') === true
-//   cells.classList.remove('frog')
-//   cells.classList.remove('frog-left')
-//   cells.classList.remove('frog-right')
-//   cells.classList.remove('frog-down')
-//   cells[280].classList.add('frog')
-//   // return frog === 280
-// }
-
-
-
-// function frogDie () {
-//   if (cells.includes(frog) && cells.includes(carsArray)) {
-//     cells.classList.remove('frog')
-//     cells.classList.remove('frog-left')
-//     cells.classList.remove('frog-right')
-//     cells.classList.remove('frog-down')
-//     // cells[280].classList.add('frog')
-//     return frog
-
-//   }
-// }
-
-
-
-
-
-
-
-
-// function moveCar1() {
-// intervalId1 = setInterval(() => {
-//   cells[271].classList.add('car')
-// }, 2000 )
-
-// setInterval(() => {
-//   cells[271].classList.remove('car')
-//   cells[270].classList.add('car')
-// }, 4000)
-
-// setInterval(() => {
-//   cells[270].classList.remove('car')
-//   cells[269].classList.add('car')
-// }, 6000)
-
-// setInterval(() => {
-//   cells[269].classList.remove('car')
-//   cells[268].classList.add('car')
-// }, 8000)
-
-// const startPosition = 271
-
-// const intervalId1 = setInterval(() => {
-//   let tempStartPosition = 271
-//   cells[startPosition].classList.add('car')
-//   setInterval(() => {
-//     cells[tempStartPosition].classList.remove('car')
-//     cells[tempStartPosition -= 1].classList.add('car')
-//     // if (cells[254].classList.contains('car') === true)  {
-//     //   cells[254].classList.remove('car')
-//     //   return tempStartPosition
-//     // }
-
-//     for (let i = 0; i < 255; i++) {
-//       cells[i].classList.remove('car')
-//     }
-//   }, 1000)
-// }, 3000)
-// }
-
-
-
-// function moveCar2() {
-//   const intervalId2 = setInterval(() => {
-//     let tempStartPosition2 = 237
-//     cells[tempStartPosition2].classList.add('car2')
-//     setInterval(() => {
-//       cells[tempStartPosition2].classList.remove('car2')
-//       cells[tempStartPosition2 -= 1].classList.add('car2')
-
-
-//       for (let i = 0; i < 221; i++) {
-//         cells[i].classList.remove('car2')
-//       }
-//     }, 500)
-//   }, 2000)
-// }
-
-
-
-// function moveCar3() {
-//   const intervalId3  = setInterval(() => {
-//     let tempStartPosition3 = 203
-//     cells[tempStartPosition3].classList.add('car3')
-//     setInterval(() => {
-//       cells[tempStartPosition3].classList.remove('car3')
-//       cells[tempStartPosition3 -= 1].classList.add('car3')
-
-
-//       for (let i = 0; i < 187; i++) {
-//         cells[i].classList.remove('car3')
-//       }
-//     }, 500)
-//   }, 3000)
-// }
-
-
-
-
-
-
-
-
-
-
 
 
 
