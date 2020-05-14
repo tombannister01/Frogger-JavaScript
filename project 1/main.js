@@ -36,6 +36,7 @@ function main() {
     moveCar()
     moveLog()
     moveLog2()
+    loadSpikes()
     backgroundAudio.play()
   }
 

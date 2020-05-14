@@ -1,4 +1,4 @@
-# project-1
+# Project-1
 
 <h1>Frogger</h1>
 
@@ -190,3 +190,18 @@ function loadCars() {
 
 - For the car positions I used an array to specify the positions I wanted my cars at. I used the same method when loading and rendering my logs.
 
+
+-
+## Biggest wins
+
+- The biggest win for me on this project was that it only took me a short amount of time to workout the logic for the grid to be displayed. This became useful in the long run as it saved some time for other areas.
+
+
+## Challenges
+
+- The biggest challange for me was getting the frog to stay on the log and getting them to move on the same squares without falling off into the river. This took a few days but managed to solve it using a boolean.
+
+
+## Lessons Learned 
+
+- From the project i learnt how to manage my time properly as it was my first project I had no experience with project deadlines. This skill will prove useful for future projects.
